@@ -30,8 +30,6 @@ Once the application runs you should see something like this
 
 The service is just a simple hotel review REST service. It uses an in-memory database (H2) to store the data. You can also do with a relational database like MySQL or PostgreSQL. If your database connection properties work.
 
-More interestingly, you can start calling some of the operational endpoints (see full list below) like ```/metrics``` and ```/health``` (these are available on **port 8091**)
-
 You can use this sample service to understand the conventions and configurations that allow you to create a DB-backed RESTful service. Once you understand and get comfortable with the sample app you can add your own services following the same patterns as the sample service.
  
 Here is what this little application demonstrates: 
@@ -54,11 +52,14 @@ Here are some endpoints you can call:
 http://localhost:8090/weather/{city}
 ```
 
-### Create a hotel resource
+
 
 ```
 GET API
 curl --location 'http://localhost:8080/weather/london'
+
+
+## weather response
 
 RESPONSE: HTTP 200 Success
 {
