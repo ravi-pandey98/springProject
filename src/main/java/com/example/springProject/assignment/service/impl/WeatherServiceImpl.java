@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -22,11 +19,32 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Autowired
     private WeatherHelperService weatherHelperService;
+
+    private Map<String, WeatherForecastResponse> cacheData = new HashMap<>();
+
     @Override
     public WeatherForecastResponse getWeather(String city) {
 
-        WeatherApiResponse weatherResponse = weatherHelperService.fetchWeatherDetails(city, 10);
-        return processWeatherForecast(weatherResponse, city);
+        if(cacheData.containsKey(city))
+        {
+            log.info("Data found in map");
+            return cacheData.get(city);
+        }
+        else {
+            log.info("Calling weather api to fetch data");
+            WeatherApiResponse weatherResponse = weatherHelperService.fetchWeatherDetails(city, 10);
+            WeatherForecastResponse weatherForecastResponse = processWeatherForecast(weatherResponse, city);
+            log.info("Saving data in cache");
+            cacheData.put(city, weatherForecastResponse);
+            return weatherForecastResponse;
+        }
+
+    }
+
+    @Override
+    public Object clearCacheData() {
+        cacheData.clear();
+        return "Data cleared";
     }
 
     /**

@@ -30,4 +30,10 @@ public class WeatherController {
         }
         return new ResponseEntity<>(weatherService.getWeather(city), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/clearCache")
+    public ResponseEntity clearCacheData()
+    {
+        return new ResponseEntity<>(weatherService.clearCacheData(), HttpStatus.ACCEPTED);
+    }
 }

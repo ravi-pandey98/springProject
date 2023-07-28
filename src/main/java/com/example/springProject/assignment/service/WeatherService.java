@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WeatherService {
     WeatherForecastResponse getWeather(String city);
+
+    Object clearCacheData();
 }
