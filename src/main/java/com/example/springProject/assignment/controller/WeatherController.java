@@ -1,16 +1,14 @@
 package com.example.springProject.assignment.controller;
 
 
-import com.example.springProject.assignment.dto.Weather;
 import com.example.springProject.assignment.dto.WeatherForecastResponse;
 import com.example.springProject.assignment.service.WeatherService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/weather")
@@ -20,6 +18,10 @@ public class WeatherController {
     @Autowired
     private WeatherService weatherService;
 
+
+
+    @ApiOperation(value = "Fetching Weather details by city", notes = "This api is basically responsible for fetch last 3 Weather records for a given city", httpMethod = "GET")
+    @ApiResponse(code = 200, message = "List of temperatures along with date")
     @GetMapping("/{city}")
     public ResponseEntity<WeatherForecastResponse> getWeather(@PathVariable String city) {
         if(city == null || city.isBlank())

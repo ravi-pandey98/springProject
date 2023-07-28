@@ -4,6 +4,7 @@ package com.example.springProject.assignment.service.impl;
 import com.example.springProject.assignment.dto.*;
 import com.example.springProject.assignment.service.WeatherService;
 import com.example.springProject.assignment.wrapperClass.WeatherHelperService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Log4j2
 public class WeatherServiceImpl implements WeatherService {
 
 
@@ -26,6 +28,13 @@ public class WeatherServiceImpl implements WeatherService {
         WeatherApiResponse weatherResponse = weatherHelperService.fetchWeatherDetails(city, 10);
         return processWeatherForecast(weatherResponse, city);
     }
+
+    /**
+     * This mehtod is basically processing weatherApiResponse data
+     * @param weatherApiResponse
+     * @param city
+     * @return WeatherForecastResponse
+     */
 
     private WeatherForecastResponse processWeatherForecast(WeatherApiResponse weatherApiResponse, String city) {
         // Extract relevant data from the API response and apply additional conditions
@@ -87,6 +96,11 @@ public class WeatherServiceImpl implements WeatherService {
         return weatherForecastResponse;
     }
 
+    /**
+     * Calculating next date
+     * @return
+     */
+
     public static String getNextDate() {
         String curDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         String nextDate = "";
@@ -98,7 +112,7 @@ public class WeatherServiceImpl implements WeatherService {
             today.add(Calendar.DAY_OF_YEAR, 3);
             nextDate = format.format(today.getTime());
         } catch (Exception e) {
-            return nextDate;
+            log.error("Unable to fetch get next date");
         }
         return nextDate;
     }
